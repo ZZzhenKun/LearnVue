@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-for + v-bind</title>
+  <style>
+    .changeColor{
+      color: red;
+    }
+  </style>
+</head>
+
+
+
+<body>
+  <!-- 默认第一行为红色，点击哪个哪个为红色 -->
+  <div id="app">
+    <ul>
+      <li v-for="(item, index) in movies" :class="getClasses(index)"  v-on:click="isClick(index)" >{{item}}</li>
+    </ul>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el:'#app',
+      data:{
+        movies:['进击的巨人','灵笼','复仇者联盟','V字仇杀队','钢铁侠'],
+        isActive: false,//默认为未点击状态
+        i:0 //点击的行号(默认为第一行)
+      },
+      methods:{
+        isClick: function(index){
+          if(this.isActive == true) //如果显示点击，则修改为未点击
+            this.isActive = !this.isActive 
+          this.i = index //记录点击的下标
+        },
+        getClasses: function(index){
+          if(index == this.i)//匹配到点击的下标
+            return {changeColor: !this.isActive} //修改状态
+        }
+      }
+    })
+  </script>
+</body>
+</html>

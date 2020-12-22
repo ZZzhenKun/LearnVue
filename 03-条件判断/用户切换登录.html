@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户登录切换</title>
+</head>
+<body>
+  
+  <div id="app">
+    <span v-if="loginChoose">
+      <label for="username">用户账户：</label>
+      <input type="text" id="username" placeholder="用户账户">
+    </span>
+
+    <span v-else>
+      <label for="email">邮箱地址：</label>
+      <input type="text" id="email" placeholder="邮箱地址">
+    </span>
+    
+    <button @click="change">切换类型</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el:'#app',
+      data:{
+        loginChoose:true,//默认选择用户账户登录
+        message: ''
+      },
+      methods:{
+        change(){
+          this.loginChoose = !this.loginChoose
+        }
+      }
+    })
+  </script>
+
+
+</body>
+</html>
