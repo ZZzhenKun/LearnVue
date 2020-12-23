@@ -52,7 +52,7 @@ const app = new Vue({
 		// 减少数量
 		subCount(index1){
 			for (let index = 0; index < this.list.length; index++) {
-				if(index1 == index && this.list[index].count > 0){
+				if(index1 == index){
 					this.list[index].count -= 1;
 				}				
 			}
@@ -60,10 +60,19 @@ const app = new Vue({
 		// 移除一行
 		removeLine(index1){
 			this.list.splice(index1,1);
+		},
+		// // 保留两位小数
+		// keepTwoDecimals(price){
+		// 	return '￥' + price.toFixed(2);
+		// }
+	},
+	filters:{
+		keepTwoDecimals(price){
+			return '￥' + price.toFixed(2);
 		}
 	},
 	computed:{
-		countAllPrice(){
+		AllPrice(){
 			this.allPrice = 0;
 			for (let index = 0; index < this.list.length; index++) {
 				this.allPrice += this.list[index].price * this.list[index].count;

@@ -125,3 +125,28 @@ this.letters.splice(0, 1, 'bbbbbb')
 // set(要修改的对象, 索引值, 修改后的值)
 Vue.set(this.letters, 0, 'bbbbbb')
 ```
+### filters：过滤器
+* 过滤器也是一种函数，可以接收数据
+* 过滤器可以对一个参数进行调整
+```
+//过滤器定义
+filters:{
+  keepTwoDecimals(price){
+    return '￥' + price.toFixed(2);
+  }
+}
+```
+```
+//过滤器使用
+<h3>总价：{{AllPrice | keepTwoDecimals}}</h3>
+```
+
+### JS方法、HTML属性的补充
+* 1.toFixed():确定小数点后保留几位
+```
+price.toFixed(2); //保留两位小数点
+```
+* 2. disabled属性：控制按钮是否显示
+```
+:disabled="item.count <= 1"
+```

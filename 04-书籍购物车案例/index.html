@@ -11,37 +11,43 @@
 <body>
 
   <div id="app">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>书籍名称</th>
-          <th>出版日期</th>
-          <th>价格</th>
-          <th>购买数量</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="(item,index1) in list">
-          <td>{{item.id}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.date}}</td>
-          <td>¥{{item.price}}</td>
-          <td @click="countAllprice()">
-            <button @click="subCount(index1)">-</button>
-            {{item.count}}
-            <button @click="addCount(index1)">+</button>
-          </td>
-          <td><button @click="removeLine(index1)">移除</button></td>
-        </tr>
-      </tbody>
-    </table>
-    <h3>总价：¥{{countAllPrice}}</h3>
+    <!-- 购物车不为空 -->
+    <div v-if="list.length > 0">
+      <table>
+        <thead>  
+          <!-- 标题行 -->
+          <tr>
+            <th></th>
+            <th>书籍名称</th>
+            <th>出版日期</th>
+            <th>价格</th>
+            <th>购买数量</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <!-- 内容显示区 -->
+        <tbody>
+          <tr v-for="(item,index1) in list">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.date}}</td>
+            <!-- <td>{{keepTwoDecimals(item.price)}}</td> -->
+            <td>{{item.price | keepTwoDecimals}}</td>
+            <td @click="countAllprice()">
+              <button @click="subCount(index1)" :disabled="item.count <= 1">-</button>
+              {{item.count}}
+              <button @click="addCount(index1)">+</button>
+            </td>
+            <td><button @click="removeLine(index1)">移除</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>总价：{{AllPrice | keepTwoDecimals}}</h3>
+    </div>
+    <!-- 购物车为空 -->
+    <h2 v-else>购物车为空</h2>
   </div>
   <script src="../js/vue.js"></script>
   <script src="./main.js"></script>
 </body>
-
 </html>
