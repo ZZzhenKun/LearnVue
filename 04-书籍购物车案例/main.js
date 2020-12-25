@@ -81,3 +81,7 @@ const app = new Vue({
 		}
 	}
 })
+
+const nums = [10,20,3,65,476,57,56,756,7,567,5,7]
+let newNums = nums.reduce()
+console.log(newNums)

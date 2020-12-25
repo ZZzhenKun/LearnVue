@@ -2,30 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Title</title>
 </head>
 <body>
-  
 
 
-  <div id="app">
-    {{message}}
-  </div>
-  <script src="../js/vue.js"></script>
-  <script>
-    const app = new Vue({
-      el:'#app',
-      data:{
-        letters:['a','b','c','d','e']
-      },
-      methods:{
-        btnClick(){
-          this.letters.unshift(),
-          this.letters.push()
-        }
-      }
-    })
-  </script>
+
+
+<script src="../js/vue.js"></script>
+<script>
+  let name="kk";
+  let age = 22;
+  let use = {
+    name,
+    age
+  }
+  console.log(use)
+</script>
+
 </body>
 </html>
