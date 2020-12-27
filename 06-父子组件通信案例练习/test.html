@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="../js/vue.js"></script>
+
+  <div id="app">
+    <cpnf></cpnf>
+  </div>
+
+
+  <!-- 父组件 -->
+  <template id="cpn1">
+    <div>
+      <!--我们想在这个dealName的方法中传递额外参数name -->
+      <cpns v-for="item in list" :key="item.name" @deal-name="todo(item.name,arguments)" :item="item" />
+    </div>
+  </template>
+
+  <!-- 子组件 -->
+  <template id="cpn2">
+    <div>
+      <button @click="sendData">发射{{item.name}}</button>
+    </div>
+  </template>
+
+  <script>
+    // 子组件
+    const cpns = {
+      template: '#cpn2',
+      props: ['item'],
+      methods: {
+        sendData() {
+          this.$emit('deal-name', '王老吉', '复仇者联盟');
+        }
+      }
+    }
+
+    //  父组件
+    const cpnf = {
+      template: '#cpn1',
+      data() {
+        return {
+          list: [{
+            name: '小王'
+          }, {
+            name: '小刚'
+          }]
+        }
+      },
+      methods: {
+        todo(name, data) {
+          console.log(name);
+          console.log(data)
+        }
+      },
+      components: {
+        cpns
+      }
+    }
+
+
+  </script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+
+      },
+      components: {
+        cpnf
+      }
+    })
+  </script>
+
+  <!-- 当我们点击子组件button的时候就会打印对应的  xxx, 王老吉 -->
+</body>
+
+</html>

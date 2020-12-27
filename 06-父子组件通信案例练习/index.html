@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>父子组件通信案例练习</title>
+</head>
+<body>
+  
+<div id="app">
+  <cpn  :num1='fnum1' 
+        :num2='fnum2'
+        @numchage1="chage1" 
+        @numchage2="chage2"/>
+</div>
+
+<template id="cpn">
+  <div>
+    <h2>props:{{num1}}</h2>
+    <h2>data:{{dnum1}}</h2>
+    <input type="text" :value="dnum1" @input="dnum1change">
+    <h2>props:{{num2}}</h2>
+    <h2>data:{{dnum2}}</h2>
+    <input type="text" :value="dnum2" @input="dnum2change">
+  </div>
+</template>
+
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el:'#app',
+    data:{
+      fnum1:1,
+      fnum2:2
+    },
+    methods:{
+      chage1(index){
+        this.fnum1 = parseFloat(index);
+      },
+      chage2(index){
+        this.fnum2 = parseFloat(index);
+      }
+    },
+    components:{
+      cpn:{
+        template:'#cpn',
+        props:{
+          num1:Number,
+          num2:Number,
+        },
+        data() {
+          return {
+            dnum1:this.num1,
+            dnum2:this.num2,
+          }
+        },
+        methods:{
+          dnum1change(event){
+            this.dnum1 = event.target.value;
+            this.$emit('numchage1',this.dnum1)
+          },
+          dnum2change(event){
+            this.dnum2 = event.target.value;
+            this.$emit('numchage2',this.dnum2)
+          }
+        }
+      }
+    }
+  })
+</script>
+
+</body>
+</html>

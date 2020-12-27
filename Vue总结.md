@@ -292,7 +292,7 @@ Vue.set(this.letters, 0, 'bbbbbb')
 ```
 
 ### Vue的组件化开发
-#### **组件构造器->注册组件->使用组件**  的方式创建组件
+#### 1. **组件构造器->注册组件->使用组件**  的方式创建组件
 * 创建组件构造器对象
 ```javascript
 const cpnC = Vue.extend({
@@ -325,7 +325,7 @@ Vue.component('my-cpn', cpnC)
 </div>
 ```
 
-#### 全局组件和局部组件
+#### 2. 全局组件和局部组件
 * 创建组件构造器对象
 ```javascript
 const cpnC = Vue.extend({
@@ -355,7 +355,7 @@ const app = new Vue({
 })
 ```
 
-#### 子组件和父组件
+#### 3. 子组件和父组件
 * 创建第一个组件构造器(子组件)
 ```javascript
 const cpnC1 = Vue.extend({
@@ -396,7 +396,7 @@ const app = new Vue({
 ```
 
 
-#### 语法糖方式注册组件:省略组件构造器，直接在注册器中写组件
+#### 4. 语法糖方式注册组件:省略组件构造器，直接在注册器中写组件
 * 全局组件
 ```javascript
 Vue.component('cpn1', {
@@ -428,7 +428,7 @@ const app = new Vue({
 })
 ```
 
-#### 组件模板分离的写法
+#### 5. 组件模板分离的写法
 ```javascript
 <div id="app">
   <cpn></cpn>
@@ -457,7 +457,7 @@ const app = new Vue({
 })
 ```
 
-#### 注册器中data必须是函数的形式:组件复用的时候希望data的值相互独立，所以使用函数每次**新创建一个对象**来传递值。
+#### 6. 注册器中data必须是函数的形式:组件复用的时候希望data的值相互独立，所以使用函数每次**新创建一个对象**来传递值。
 ```javascript
 Vue.component('cpn', {
   template: '#cpn',
@@ -469,7 +469,7 @@ Vue.component('cpn', {
 })
 ```
 
-#### 父组件向子组件传递数据:使用props 属性
+#### 7. 父组件向子组件传递数据:使用props 属性
 ```javascript
 <div id="app">
   <!--<cpn v-bind:cmovies="movies"></cpn>-->
@@ -484,7 +484,8 @@ Vue.component('cpn', {
 const cpn = {
   template: '#cpn',
   // props: ['cmovies', 'cmessage'],
-  props: {  // props定义了子组件的变量，也可以定义变量的默认值等等，用来接收父组件传来的值
+  props: {  
+    // props定义了子组件的变量，也可以定义变量的默认值等等，用来接收父组件传来的值
     // 1.类型限制
     // cmovies: Array,
     // cmessage: String,
@@ -510,6 +511,17 @@ const cpn = {
 
   }
 }
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    message: '你好啊',
+    movies: ['海王', '海贼王', '海尔兄弟']
+  },
+  components: {
+    cpn
+  }
+})
 ```
 * **子组件中v-bind绑定的属性不能使用驼峰命名**，只能使用c-info的方式命名
 ```javascript
@@ -518,7 +530,7 @@ const cpn = {
 </div>
 ```
 
-#### 子组件向父组件传递数据：通过自定义事件
+#### 8. 子组件向父组件传递数据：通过自定义事件
 ```javascript
 <!--父组件模板-->
 <div id="app">
@@ -539,44 +551,207 @@ const cpn = {
 
 
 // 1.子组件
-  const cpn = {
-    template: '#cpn',
-    data() {
-      // 只能返回对象
-      return {
-        categories: [
-          {id: 'aaa', name: '热门推荐'},
-          {id: 'bbb', name: '手机数码'},
-          {id: 'ccc', name: '家用家电'},
-          {id: 'ddd', name: '电脑办公'},
-        ]
-      }
-    },
-    methods: {
-      btnClick(item) {
-        // 发射事件: 自定义事件
-        this.$emit('item-click', item)
-      }
+const cpn = {
+  template: '#cpn',
+  data() {
+    // 只能返回对象
+    return {
+      categories: [
+        {id: 'aaa', name: '热门推荐'},
+        {id: 'bbb', name: '手机数码'},
+        {id: 'ccc', name: '家用家电'},
+        {id: 'ddd', name: '电脑办公'},
+      ]
+    }
+  },
+  methods: {
+    btnClick(item) {
+      // 发射事件: 自定义事件
+      this.$emit('item-click', item)
     }
   }
+}
 
 
 // 2.父组件
+const app = new Vue({
+  el: '#app',
+  data: {
+    message: '你好啊'
+  },
+  components: {
+    cpn
+  },
+  methods: {
+    cpnClick(item) {
+      console.log('cpnClick', item);
+    }
+  }
+})
+```
+
+
+
+
+#### 9. watch(可以监控变量是否改变)
+```javascript
+
+<input type="text" v-model="dnumber1">
+<input type="text" v-model="dnumber2">
+
+watch: {
+  dnumber1(newValue) {
+    this.dnumber2 = newValue * 100;
+    this.$emit('num1change', newValue);
+  },
+  dnumber2(newValue) {
+    this.number1 = newValue / 100;
+    this.$emit('num2change', newValue);
+  }
+}
+// 使用watch来定义方法可以不用讲v-model拆分成 :value=""  @input="dnum2change"的形式
+<input type="text" :value="dnum1" @input="dnum1change">
+<input type="text" :value="dnum2" @input="dnum2change">
+
+methods: {
+  dnum1change(event){
+    this.dnum1 = event.target.value;
+    this.$emit('numchage1',this.dnum1)
+  },
+  dnum2change(event){
+    this.dnum2 = event.target.value;
+    this.$emit('numchage2',this.dnum2)
+  }
+}
+```
+
+#### 10. 组件访问——父访问子
+##### 方式一(常用)
+- 子组件中增加 *ref* 属性
+```javascript
+<cpn ref="aaa"></cpn>
+```
+- 父组件通过 *$ref.aaa* 的方式调用子组件中的值
+```JavaScript
+console.log(this.$refs.aaa.name);
+```
+##### 方式二(不常用)
+通过 *$children[]* 的方式调用，因为使用的是数组的方式，耦合性太高不推荐使用
+```javascript
+console.log(this.$children[3].name)
+```
+
+#### 11. 组件访问——子访问父
+- 访问父组件： *$parent*
+```javascript
+console.log(this.$parent)
+```
+- 访问根组件： *$root*
+```javascript
+console.log(this.$root)
+```
+
+#### 12.slot插槽的使用
+1. 插槽的基本使用 <slot></slot>
+```javascript
+<template id="cpn">
+  <div>
+    <h2>我是组件</h2>
+    <p>我是组件, 哈哈哈</p>
+    <slot></slot>
+  </div>
+</template>
+```
+2. 插槽的默认值 <slot>默认内容</slot>
+```javascript
+<template id="cpn">
+  <div>
+    <h2>我是组件</h2>
+    <p>我是组件, 哈哈哈</p>
+    <slot><button>按钮</button></slot>
+  </div>
+</template>
+```
+3. 如果有多个值, 同时放入到组件进行替换时, 一起作为替换元素
+```javascript
+<cpn>
+  <i>呵呵呵</i>
+  <div>我是div元素</div>
+  <p>我是p元素</p>
+</cpn>
+
+<template id="cpn">
+  <div>
+    <h2>我是组件</h2>
+    <p>我是组件, 哈哈哈</p>
+    <slot></slot>
+  </div>
+</template>
+```
+4. 具名插槽的使用
+```javascript
+<div id="app">
+  <cpn><span slot="center">标题</span></cpn>
+  <cpn><button slot="left">返回</button></cpn>
+</div>
+
+<template id="cpn">
+  <div>
+    <slot name="left"><span>左边</span></slot>
+    <slot name="center"><span>中间</span></slot>
+    <slot name="right"><span>右边</span></slot>
+  </div>
+</template>
+```
+5. 插槽的案例:父组件需要使用到子组件中的数据重新定义显示方式
+```javascript
+<div id="app">
+  <cpn></cpn>
+
+  <cpn>
+    <!--目的是获取子组件中的pLanguages-->
+    <template slot-scope="slot">
+      <!--<span v-for="item in slot.data"> - {{item}}</span>-->
+      <span>{{slot.data.join(' - ')}}</span>
+    </template>
+  </cpn>
+
+  <cpn>
+    <!--目的是获取子组件中的pLanguages-->
+    <template slot-scope="slot">
+      <!--<span v-for="item in slot.data">{{item}} * </span>-->
+      <span>{{slot.data.join(' * ')}}</span>
+    </template>
+  </cpn>
+  <!--<cpn></cpn>-->
+</div>
+
+<template id="cpn">
+  <div>
+    <slot :data="pLanguages">
+      <ul>
+        <li v-for="item in pLanguages">{{item}}</li>
+      </ul>
+    </slot>
+  </div>
+</template>
+<script src="../js/vue.js"></script>
+<script>
   const app = new Vue({
     el: '#app',
     data: {
       message: '你好啊'
     },
     components: {
-      cpn
-    },
-    methods: {
-      cpnClick(item) {
-        console.log('cpnClick', item);
+      cpn: {
+        template: '#cpn',
+        data() {
+          return {
+            pLanguages: ['JavaScript', 'C++', 'Java', 'C#', 'Python', 'Go', 'Swift']
+          }
+        }
       }
     }
   })
+</script>
 ```
-
-
-
