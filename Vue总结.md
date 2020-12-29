@@ -291,6 +291,8 @@ this.letters.splice(0, 1, 'bbbbbb')
 Vue.set(this.letters, 0, 'bbbbbb')
 ```
 
+
+
 ### Vue的组件化开发
 #### 1. **组件构造器->注册组件->使用组件**  的方式创建组件
 * 创建组件构造器对象
@@ -324,7 +326,6 @@ Vue.component('my-cpn', cpnC)
   </div>
 </div>
 ```
-
 #### 2. 全局组件和局部组件
 * 创建组件构造器对象
 ```javascript
@@ -354,7 +355,6 @@ const app = new Vue({
   }
 })
 ```
-
 #### 3. 子组件和父组件
 * 创建第一个组件构造器(子组件)
 ```javascript
@@ -394,8 +394,6 @@ const app = new Vue({
 })
 
 ```
-
-
 #### 4. 语法糖方式注册组件:省略组件构造器，直接在注册器中写组件
 * 全局组件
 ```javascript
@@ -427,7 +425,6 @@ const app = new Vue({
   }
 })
 ```
-
 #### 5. 组件模板分离的写法
 ```javascript
 <div id="app">
@@ -456,7 +453,6 @@ const app = new Vue({
   }
 })
 ```
-
 #### 6. 注册器中data必须是函数的形式:组件复用的时候希望data的值相互独立，所以使用函数每次**新创建一个对象**来传递值。
 ```javascript
 Vue.component('cpn', {
@@ -468,7 +464,6 @@ Vue.component('cpn', {
   }
 })
 ```
-
 #### 7. 父组件向子组件传递数据:使用props 属性
 ```javascript
 <div id="app">
@@ -529,7 +524,6 @@ const app = new Vue({
   <cpn :c-info="info" :child-my-message="message" v-bind:class></cpn>
 </div>
 ```
-
 #### 8. 子组件向父组件传递数据：通过自定义事件
 ```javascript
 <!--父组件模板-->
@@ -589,10 +583,6 @@ const app = new Vue({
   }
 })
 ```
-
-
-
-
 #### 9. watch(可以监控变量是否改变)
 ```javascript
 
@@ -624,7 +614,6 @@ methods: {
   }
 }
 ```
-
 #### 10. 组件访问——父访问子
 ##### 方式一(常用)
 - 子组件中增加 *ref* 属性
@@ -640,7 +629,6 @@ console.log(this.$refs.aaa.name);
 ```javascript
 console.log(this.$children[3].name)
 ```
-
 #### 11. 组件访问——子访问父
 - 访问父组件： *$parent*
 ```javascript
@@ -650,7 +638,6 @@ console.log(this.$parent)
 ```javascript
 console.log(this.$root)
 ```
-
 #### 12.slot插槽的使用
 1. 插槽的基本使用 <slot></slot>
 ```javascript
@@ -754,4 +741,403 @@ console.log(this.$root)
     }
   })
 </script>
+```
+
+
+### Webpack
+#### 1.webpack安装(版本需后续更新)
+1. 全局安装（-g）
+```
+npm install webpack@3.6.0 -g
+``` 
+2. 局部安装（--save-dev: 开发时依赖，项目打包后不需要继续使用）
+```
+cd 对应目录
+npm install webpack@3.6.0 --save-dev
+```
+  - 安装之后会生成node_modules 文件，并且package.json中会生成自动生成相关配置
+  ```javascript
+    "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+  ```
+#### 2. webpack ./src/main.js ./dist/bundle.js 的方式打包
+1. CommonJS 模块化的写法
+```javascript
+function add(num1, num2){
+  return num1 + num2
+}
+
+function mul(num1, num2){
+  return num1 * num2
+}
+// CommonJS 模块化的写法
+module.exports = {
+  add,
+  mul
+}
+
+// CommonJS 模块化的写法
+const {add, mul} = require('./mathUtils.js')
+
+console.log(add(20,30))
+console.log(mul(20,30))
+```
+2. ES6模块化的写法
+```javascript
+// ES6模块化的写法
+export const name = "ZZK"
+export const age = 22
+export const height = 178
+
+// ES6模块化的写法
+import {name, age, height} from "./info" //info.js中的js可以省略
+
+console.log(name)
+console.log(age)
+console.log(height)
+```
+
+3. 使用webpack打包
+前边是入口文件，后边是生成文件
+```javascript
+webpack ./src/main.js ./dist/bundle.js
+```
+#### 3. 直接使用webpack命令打包
+1. 配置webpack.config.js文件（名字为固定写法）
+```javascript
+const path = require('path')
+
+module.exports={
+  entry: './src/main.js',
+  output:{
+    // 动态获取路径
+    //__dirname获取当前文件所在路径, resolve拼接两个路径
+    path: path.resolve(__dirname, 'dist'), 
+    filename: 'bundle.js'
+  },
+}
+```
+2. 使用npm init 构建node环境(自动生成的内容)：因为获取绝对路径时需要调用node的path方法
+```javascript
+{
+  "name": "meetwebpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+#### 4. 使用npm run build命令打包（优先使用本地环境）
+1. 在package.json的script中添加命令，使用npm init 创建的文件
+```javascript
+  "build": "webpack"
+---------------------------------------------
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+```
+
+### Webpack的loader使用 **(注意各个版本之间的影响)**
+- loader的使用过程
+  - 1. 通过npm安装需要的loader
+  - 2. 在webpack.config.js中的module关键字下进行配置
+#### 1. CSS文件的处理
+1. 安装css-loader:解析 CSS 文件后，使用 import 加载，并且返回 CSS 代码
+```
+npm install --save-dev css-loader
+```
+2. 在module中添加配置
+```javascript
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ] //顺序不能改变，默认从又向左读取
+      }
+    ]
+  }
+```
+3. 安装style-loader:将模块的导出作为样式添加到 DOM 中
+```
+npm install style-loader --save-dev
+```
+#### 2. less文件处理
+1. 安装less-loader 和 less文件<br>
+less-loader:负责加载less文件 <br>
+less:负责解析less文件
+```javascript
+npm install --save-dev less-loader less
+```
+#### 3. 图片的处理
+1. 安装url-loader
+```
+npm install --save-dev url-loader
+```
+2. 配置package.json文件
+```javascript
+module: {
+    rules: [
+      {
+        // 如果图片类型又jpeg时再加上图片的类型
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // 小于limit时，会将图片编译成base64字符串形式
+              // 大于limit时，会使用file-loader模块进行加载
+              limit: 8192
+            }
+          }
+        ]
+      }
+    ]
+  }
+```
+3. 大于limit限制后，通过file-loader处理
+```
+npm install --save-dev file-loader
+```
+  - **通过文件加载的图片会显示路径错误**<br>
+  在webpack.config.js文件的output中添加
+  ```javascript
+  publicPath: 'dist/'
+  ```
+4. 对图片重新命名<br>
+在options里面添加name属性：<br>
+'文件名/[图片原有名字].[哈希值取前8位].[图片原有扩展名]'
+```
+options: {
+            limit: 8192,
+            name: 'img/[name].[hash:8].[ext]'
+          }
+```
+#### 4. ES6转换为ES5
+1. 使用babel对应的loader
+```
+npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
+```
+2. 配置webpack.config.js:修改preset，此处使用的是es2015不是env
+```javascript
+{
+  test: /\.js$/,
+  exclude: /(node_modules|bower_components)/,
+  use: {
+    loader: 'babel-loader',
+    options: {
+      // presets: ['@babel/preset-env']
+      presets: ['es2015']
+    }
+  }
+}
+```
+#### 5. 引入Vue
+1. 安装<br>
+此时不需要-dev，因为运行时也需要使用vue，不是编译时环境
+```
+npm install vue --save
+```
+2. 导入&使用
+```javascript
+//  5.使用Vue进行开发
+import Vue from 'vue'
+
+const app = new Vue({
+  el:'#app',
+  data:{
+    message:"Hello Webpack"
+  }
+})
+```
+3. 编译之后会报错
+```
+[Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.
+```
+- 原因：使用的是 runtime-only Vue环境，需要使用 runtime-compile 环境
+- 解决方法：在webpack.config.js中添加 resolve属性
+```javascript
+  resolve: {
+    alias:{
+      // 指定使用vue.esm.js来解析文件
+      'vue$': 'vue/dist/vue.esm.js'
+    }
+  }
+```
+
+### Vue模板化的步骤
+#### 1. el和template的关系
+1. Vue会将template中的代码来替换el挂载的全部代码
+```javascript
+const app = new Vue({
+  el:'#app',
+  template:`
+  <div>
+    <h2>{{message}}</h2>
+    <button>按钮</button>
+    <h2>{{name}}</h2>
+  </div>
+  `,
+  data:{
+    message:"Hello Webpack",
+    name:"ZZK"
+  }
+})
+```
+2. 将template的内容提取成一个对象
+```javascript
+const App = {
+  template: `
+  <div>
+    <h2>{{message}}</h2>
+    <button @click='btnClick'>按钮</button>
+    <h2>{{name}}</h2>
+  </div>`,
+  data() {
+    return {
+      message: "Hello Webpack",
+      name: "ZZK"
+    }
+  },
+  methods: {
+    btnClick() {
+
+    }
+  }
+}
+// 在Vue中注册组件并通过template替换原来的代码
+const app = new Vue({
+  el: '#app',
+  template: '<App/>',
+  components: {
+    App,
+  }
+})
+```
+3. 将App对象中的内容提取成一个App.js 文件
+```javascript
+export default{
+  template: `
+  <div>
+    <h2>{{message}}</h2>
+    <button @click='btnClick'>按钮</button>
+    <h2>{{name}}</h2>
+  </div>`,
+  data() {
+    return {
+      message: "Hello Webpack",
+      name: "ZZK"
+    }
+  },
+  methods: {
+    btnClick() {
+
+    }
+  }
+}
+// 引入App文件
+import App from './vue/app'
+
+const app = new Vue({
+  el: '#app',
+  template: '<App/>',
+  components: {
+    App,
+  }
+})
+```
+4. 由于App.js文件中的js代码 html代码没有分离，需要继续抽取<br>
+创建App.vue文件
+  - 由于vscode创建.vue文件时不能自动创建模板所以需要手动填写vue模板
+  1. 安装vetur插件
+  2. 打开VS Code编辑器，依次选择<br>
+  “文件 -> 首选项 -> 用户代码片段”，此时，会弹出一个搜索框，我们输入vue
+  3. 填入以下模板
+  ```javascript
+  {
+    "Print to console": {
+        "prefix": "vue",
+        "body": [
+            "<template>",
+            "",
+            "</template>",
+            "",
+            "<script>",
+            "export default {",
+            "  name:'',",
+            "  data(){",
+            "   return {",
+            "",
+            "   }",
+            "  }",
+            "}",
+            "</script>",
+            "",
+            "<style scoped>",
+            "",
+            "</style>",
+            "$2"
+        ],
+        "description": "Vue模板"
+    }
+  ```
+1. 将template中的内容填入App.vue中的template中
+```javascript
+<template>
+    <div>
+    <h2 class="title">{{message}}</h2>
+    <button @click='btnClick'>按钮</button>
+    <h2>{{name}}</h2>
+  </div>
+</template>
+
+<script>
+export default {
+  name:'App',
+  data() {
+    return {
+      message: "Hello Webpack",
+      name: "ZZK"
+    }
+  },
+  methods: {
+    btnClick() {
+
+    }
+  }
+}
+</script>
+
+
+<style scoped>
+  .title{
+    color: green;
+  }
+</style>
+```
+2. 由于没有对应的解析文件，不能解析.vue结尾的文件，需要继续安装vue-loader和vue-template-compiler
+```
+npm install vue-loader vue-template-compiler --save-dev
+```
+3. 在webpack.config.js文件中进行配置
+```
+{
+  test:/\.vue$/,
+  use:{
+    loader: 'vue-loader',
+  }
+}
+```
+4. 再次打包时运行出错：
+```
+vue-loader was used without the corresponding plugin. Make sure to include VueLoaderPlugin in your webpack config.
+```
+5. 解决方法：在package.json中修改为"vue-loader": "^13.0.0",vue-loader大于14的版本需要使用插件，所以更改版本为13
+```javascript
+npm install //重新安装所有插件
 ```
