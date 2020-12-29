@@ -1,5 +1,5 @@
 # Vue
-### Vue模板语法
+## Vue模板语法
 * v-for
 ```JavaScript
 <li v-for="item in movies">{{item}}</li>
@@ -142,7 +142,7 @@ v-bind:class="getClasses(index)"
     ```
 
 
-### Vue计算属性
+## Vue计算属性
 * 计算属性（计算属性会进行缓存，如果多次使用时，计算属性只会调用一次）
   - 计算属性可以直接运行显示，不要调用条件，函数需要调用条件，不能自动运行
 ```JavaScript
@@ -161,7 +161,7 @@ computed:{
   - 在使用const定义标识符,必须进行赋值
   - 常量的含义是指向的对象不能修改, 但是可以改变对象内部的属性
 
-### filters：过滤器
+## filters：过滤器
 * 过滤器也是一种函数，可以接收数据
 * 过滤器可以对一个参数进行调整
 ```JavaScript
@@ -177,7 +177,7 @@ filters:{
 <h3>总价：{{AllPrice | keepTwoDecimals}}</h3>
 ```
 
-### JS方法、HTML属性的补充
+## JS方法、HTML属性的补充
 * 1. toFixed():确定小数点后保留几位
 ```JavaScript
 price.toFixed(2); //保留两位小数点
@@ -217,7 +217,7 @@ console.log(total);
 
 * 4. 
 
-### ES6 语法补充
+## ES6 语法补充
 * ES6 对象字面量的增强写法
   - 属性的增强写法
   ```JavaScript
@@ -252,7 +252,7 @@ console.log(total);
     }
   ```
   
-### Vue响应式的数组方法
+## Vue响应式的数组方法
 * 1.push()方法: 数组最后添加元素
 ```JavaScript
 this.letters.push('aaa')
@@ -293,8 +293,8 @@ Vue.set(this.letters, 0, 'bbbbbb')
 
 
 
-### Vue的组件化开发
-#### 1. **组件构造器->注册组件->使用组件**  的方式创建组件
+## Vue的组件化开发
+### 1. **组件构造器->注册组件->使用组件**  的方式创建组件
 * 创建组件构造器对象
 ```javascript
 const cpnC = Vue.extend({
@@ -326,7 +326,7 @@ Vue.component('my-cpn', cpnC)
   </div>
 </div>
 ```
-#### 2. 全局组件和局部组件
+### 2. 全局组件和局部组件
 * 创建组件构造器对象
 ```javascript
 const cpnC = Vue.extend({
@@ -355,7 +355,7 @@ const app = new Vue({
   }
 })
 ```
-#### 3. 子组件和父组件
+### 3. 子组件和父组件
 * 创建第一个组件构造器(子组件)
 ```javascript
 const cpnC1 = Vue.extend({
@@ -394,7 +394,7 @@ const app = new Vue({
 })
 
 ```
-#### 4. 语法糖方式注册组件:省略组件构造器，直接在注册器中写组件
+### 4. 语法糖方式注册组件:省略组件构造器，直接在注册器中写组件
 * 全局组件
 ```javascript
 Vue.component('cpn1', {
@@ -425,7 +425,7 @@ const app = new Vue({
   }
 })
 ```
-#### 5. 组件模板分离的写法
+### 5. 组件模板分离的写法
 ```javascript
 <div id="app">
   <cpn></cpn>
@@ -453,7 +453,7 @@ const app = new Vue({
   }
 })
 ```
-#### 6. 注册器中data必须是函数的形式:组件复用的时候希望data的值相互独立，所以使用函数每次**新创建一个对象**来传递值。
+### 6. 注册器中data必须是函数的形式:组件复用的时候希望data的值相互独立，所以使用函数每次**新创建一个对象**来传递值。
 ```javascript
 Vue.component('cpn', {
   template: '#cpn',
@@ -464,7 +464,7 @@ Vue.component('cpn', {
   }
 })
 ```
-#### 7. 父组件向子组件传递数据:使用props 属性
+### 7. 父组件向子组件传递数据:使用props 属性
 ```javascript
 <div id="app">
   <!--<cpn v-bind:cmovies="movies"></cpn>-->
@@ -524,7 +524,7 @@ const app = new Vue({
   <cpn :c-info="info" :child-my-message="message" v-bind:class></cpn>
 </div>
 ```
-#### 8. 子组件向父组件传递数据：通过自定义事件
+### 8. 子组件向父组件传递数据：通过自定义事件
 ```javascript
 <!--父组件模板-->
 <div id="app">
@@ -583,7 +583,7 @@ const app = new Vue({
   }
 })
 ```
-#### 9. watch(可以监控变量是否改变)
+### 9. watch(可以监控变量是否改变)
 ```javascript
 
 <input type="text" v-model="dnumber1">
@@ -614,7 +614,7 @@ methods: {
   }
 }
 ```
-#### 10. 组件访问——父访问子
+### 10. 组件访问——父访问子
 ##### 方式一(常用)
 - 子组件中增加 *ref* 属性
 ```javascript
@@ -629,7 +629,7 @@ console.log(this.$refs.aaa.name);
 ```javascript
 console.log(this.$children[3].name)
 ```
-#### 11. 组件访问——子访问父
+### 11. 组件访问——子访问父
 - 访问父组件： *$parent*
 ```javascript
 console.log(this.$parent)
@@ -638,7 +638,7 @@ console.log(this.$parent)
 ```javascript
 console.log(this.$root)
 ```
-#### 12.slot插槽的使用
+### 12.slot插槽的使用
 1. 插槽的基本使用 <slot></slot>
 ```javascript
 <template id="cpn">
@@ -744,8 +744,8 @@ console.log(this.$root)
 ```
 
 
-### Webpack
-#### 1.webpack安装(版本需后续更新)
+## Webpack
+### 1.webpack安装(版本需后续更新)
 1. 全局安装（-g）
 ```
 npm install webpack@3.6.0 -g
@@ -761,7 +761,7 @@ npm install webpack@3.6.0 --save-dev
     "webpack": "^3.6.0"
   }
   ```
-#### 2. webpack ./src/main.js ./dist/bundle.js 的方式打包
+### 2. webpack ./src/main.js ./dist/bundle.js 的方式打包
 1. CommonJS 模块化的写法
 ```javascript
 function add(num1, num2){
@@ -803,7 +803,7 @@ console.log(height)
 ```javascript
 webpack ./src/main.js ./dist/bundle.js
 ```
-#### 3. 直接使用webpack命令打包
+### 3. 直接使用webpack命令打包
 1. 配置webpack.config.js文件（名字为固定写法）
 ```javascript
 const path = require('path')
@@ -832,7 +832,7 @@ module.exports={
   "license": "ISC"
 }
 ```
-#### 4. 使用npm run build命令打包（优先使用本地环境）
+### 4. 使用npm run build命令打包（优先使用本地环境）
 1. 在package.json的script中添加命令，使用npm init 创建的文件
 ```javascript
   "build": "webpack"
@@ -842,12 +842,120 @@ module.exports={
     "build": "webpack"
   },
 ```
+### 5. 添加版权的Plugin <br>
+在webpack.config.js中添加plugins(webpack自带方法)
+```javascript
+plugins: [
+  new webpack.BannerPlugin('最终版权归张震坤所有')
+]
+```
+### 6. 将index.html文件打包到项目文件夹中
+1. 安装html-webpack-plugin
+```
+npm install --save-dev html-webpack-plugin@3.2.0
+```
+2. 删除之前添加的 publicPath: 'dist/'
+3. 需要在index中自动生成Vue的div,webpack.config.js中添加代码
+```javascript
+new HtmlWebpackPlugin({
+  template: 'index.html'
+})
+```
+### 7. 压缩js代码
+1. 安装uglifyjs-webpack-plugin插件
+```
+npm install uglifyjs-webpack-plugin@1.1.1 --save-dev
+```
+2. 配置webpack.config.js文件
+```javascript
+plugins: [
+  new webpack.BannerPlugin('最终版权归张震坤所有'),
+  new HtmlWebpackPlugin({
+    template: 'index.html'
+  }),
+  new UglifyjsWebpackPlugin(),
+]
+```
+### 8. 搭建本地服务器
+1. 安装webpack-dev-server
+```
+npm install --save-dev webpack-dev-server@2.9.1
+```
+2. 在webpack.config.js中配置devServer
+```javascript
+devServer:{
+  contentBase:'./dist',
+  inline:true,
+  // 可以额外进行其他配置
+  /*
+  devserver也是作为webpack中的一个选项，选项本身可以设置如下属性：
+  contentBase：为哪一个文件夹提供本地服务，默认是根文件夹，我们这里要填写./dist
+  port：端口号
+  inline：页面实时刷新
+  historyApiFallback：在SPA页面中，依赖HTML5的history模式
+  */
+}
+```
+3. 在packge.json中添加配置文件
+```javascript
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "webpack",
+  -------------------------------------------------
+  "dev": "webpack-dev-server --open" //open可以自动打开本地网页
+}
+```
+### 9. 对webpack相关配置文件进行抽离
+1. 新建三个文件(base.config.js  prod.config.js  dev.config.js)
+2. 安装webpack-merge
+```
+npm install webpack-merge --save-dev
+```
+3. 分别在三个文件内写入需要的配置文件
+```javascript
+// dev.config.js
+const WebpackMerge = require('webpack-merge')
+const baseConfig = require('./base.config')
 
-### Webpack的loader使用 **(注意各个版本之间的影响)**
+module.exports = WebpackMerge(baseConfig,{
+  devServer:{
+    contentBase:'./dist',
+    inline: true,   
+  }
+})
+
+// prod.config.js
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+const webpackMerge = require('webpack-merge')
+const WebpackMerge = require('webpack-merge')
+const baseConfig = require('./base.config')
+
+module.exports = WebpackMerge(baseConfig,{
+  plugins: [
+    new UglifyjsWebpackPlugin(),
+  ],
+})
+
+// base.config.js 则删除掉分离出去的配置文件
+```
+4. 在package.json中修改配置文件
+```
+"build": "webpack --config ./build/prod.config.js",
+"dev": "webpack-dev-server --open --config ./build/dev.config.js"
+```
+5. 修改base.config.js中导出路径
+```javascript
+path: path.resolve(__dirname, '../dist'),
+```
+
+
+
+
+## Webpack的loader使用 **(注意各个版本之间的影响)**
 - loader的使用过程
   - 1. 通过npm安装需要的loader
   - 2. 在webpack.config.js中的module关键字下进行配置
-#### 1. CSS文件的处理
+### 1. CSS文件的处理
 1. 安装css-loader:解析 CSS 文件后，使用 import 加载，并且返回 CSS 代码
 ```
 npm install --save-dev css-loader
@@ -867,14 +975,14 @@ npm install --save-dev css-loader
 ```
 npm install style-loader --save-dev
 ```
-#### 2. less文件处理
+### 2. less文件处理
 1. 安装less-loader 和 less文件<br>
 less-loader:负责加载less文件 <br>
 less:负责解析less文件
 ```javascript
 npm install --save-dev less-loader less
 ```
-#### 3. 图片的处理
+### 3. 图片的处理
 1. 安装url-loader
 ```
 npm install --save-dev url-loader
@@ -918,7 +1026,7 @@ options: {
             name: 'img/[name].[hash:8].[ext]'
           }
 ```
-#### 4. ES6转换为ES5
+### 4. ES6转换为ES5
 1. 使用babel对应的loader
 ```
 npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
@@ -937,7 +1045,7 @@ npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
   }
 }
 ```
-#### 5. 引入Vue
+### 5. 引入Vue
 1. 安装<br>
 此时不需要-dev，因为运行时也需要使用vue，不是编译时环境
 ```
@@ -970,8 +1078,8 @@ const app = new Vue({
   }
 ```
 
-### Vue模板化的步骤
-#### 1. el和template的关系
+## Vue模板化的步骤
+### 1. el和template的关系
 1. Vue会将template中的代码来替换el挂载的全部代码
 ```javascript
 const app = new Vue({
