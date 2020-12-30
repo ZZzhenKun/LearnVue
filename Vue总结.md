@@ -966,7 +966,7 @@ npm install --save-dev css-loader
     rules: [
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ] //顺序不能改变，默认从又向左读取
+        use: [ 'style-loader', 'css-loader' ] //顺序不能改变，默认从右向左读取
       }
     ]
   }
@@ -1249,3 +1249,26 @@ vue-loader was used without the corresponding plugin. Make sure to include VueLo
 ```javascript
 npm install //重新安装所有插件
 ```
+
+## Vue/cli
+### 1. 安装Vue/cli(全局安装)
+```
+npm install -g @vue/cli
+```
+
+- 视频中需要，安装vue/cli 2.x
+```
+npm install -g @vue/cli-init
+```
+### 2. 初始化项目
+```js
+// Vue/cli 2.x
+vue init webpack '项目名'
+// Vue/cli 3.x
+vue create '项目名'
+```
+### 3. 配置Vue/cli 2.x
+1. 配置项内容<br>
+![配置选项](/图片/Vue-cli2.x配置.png)<br><br>
+![配置的功能](/图片/Vue-cli2.x各个配置的作用.png)
+2. 
