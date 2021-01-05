@@ -15,7 +15,6 @@ export default {
   },
 };
 </script>
-
 <style>
 /* 导入css样式 */
 @import "./assets/css/base.css";
