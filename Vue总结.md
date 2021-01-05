@@ -1271,4 +1271,56 @@ vue create '项目名'
 1. 配置项内容<br>
 ![配置选项](/图片/Vue-cli2.x配置.png)<br><br>
 ![配置的功能](/图片/Vue-cli2.x各个配置的作用.png)
-2. 
+
+## Vue-router
+### 1. 安装和使用Vue-router
+1. 
+```js
+npm install vue-router --save
+```
+2. 配置vue-router的index文件，配置相应的映射关系
+```js
+import Vue from 'vue'
+import Router from 'vue-router' //导入router对象
+import Home from '../components/home'
+import About from '../components/about'
+
+Vue.use(Router) //调用路由功能
+
+export default new Router({
+  // 配置路由映射
+  routes: [
+    {
+      path:'/home',
+      component: Home
+    },
+    {
+      path:'/about',
+      component: About
+    }
+  ]
+})
+```
+3. 在APP.vue中使用vue-router
+```js
+<template>
+  <div id="app">
+  // 设置路由组件
+    <router-link to="/home">首页</router-link>
+    <router-link to="/about">关于</router-link>
+    // 设置显示位置
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App'
+}
+</script>
+
+<style>
+
+</style>
+```
+### 2. 
