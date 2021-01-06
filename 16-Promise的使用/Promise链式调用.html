@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise链式调用</title>
+</head>
+<body>
+
+  <h2>大标题</h2>
+  <script>
+    // new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve('aaa')
+    //     console.log('-----------------------abc-----------------------')
+    //   }, 1000)
+    // }).then(res => {
+    //   console.log(res, '这是第一层的处理代码')
+    //   return new Promise((reslove, reject) => {
+    //     reslove(res + '111')
+    //   })
+    // }).then(res => {
+    //   console.log(res, '这是第二层处理代码')
+    //   return new Promise(reslove => {
+    //     reslove(res + '222')
+    //   })
+    // }).then(res => {
+    //   // 使用简写的方式直接调用resolve方法
+    //   console.log(res, '这是第三层处理代码')
+    //   return Promise.resolve(res + '333')
+    // }).then(res => {
+    //   console.log(res , '这是第四层处理代码')
+    // })
+
+    // 更加简明的写法，直接返回res + '111'，框架会自动封装近Promise里面
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('aaa')
+        console.log('-----------------------abc-----------------------')
+      }, 1000)
+    }).then(res => {
+      console.log(res, '这是第一层的处理代码')
+      return res + '111'
+    }).then(res => {
+      console.log(res, '这是第二层处理代码')
+      return res + '222'
+    }).then(res => {
+      // 使用简写的方式直接调用resolve方法
+      console.log(res, '这是第三层处理代码')
+      return res  + '333'
+    }).then(res => {
+      console.log(res , '这是第四层处理代码')
+    })
+  </script>
+</body>
+</html>

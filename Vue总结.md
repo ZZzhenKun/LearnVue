@@ -1323,4 +1323,6 @@ export default {
 
 </style>
 ```
-### 2. 
+
+## VueX
+### 1.配置VueX
